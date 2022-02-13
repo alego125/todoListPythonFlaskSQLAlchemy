@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 #Indicamos a la aplicacion mediante config un parametro mediante el cual le vamos a indicar el lugar donde se encuentra la base de datos, para esto igualamos al string donde usaremos el protocolo de sqlite donde indicamos mediante sqlite:///, las tres barras indican que usaremos el protocolo de sqlite, seguidamente indicamos la carpeta donde esta la base de datos y luego la base de datos
 #Si quisieramos usar una base de datos en mysql simplemente loq ue debemos hacer es en la lsiguiente linea apuntar en vez de a sqlite a mysql e indicar la url de la base de datos mysql
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/task.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://twnoooizrjolux:a367f47e8feb105a8ce8bf6a1453f648318060f4be6821a13402b54efa82d281@ec2-52-44-50-220.compute-1.amazonaws.com:5432/d9gm1tcd6ciej1'
 #Con este comando de arriba sqlalchemy va a saber donde buscar la base de datos para ejecutar los comandos en ella
 
 #Ejecutamos el modulo de sqlalchemy 
