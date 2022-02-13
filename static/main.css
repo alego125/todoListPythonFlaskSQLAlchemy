@@ -1,0 +1,27 @@
+  body {
+      /*Pegamos el gradiente de color que sacamos de la pagina*/
+    background: #e0eafc; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #cfdef3,
+      #e0eafc
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #cfdef3,
+      #e0eafc
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /*Indicamos el color negro para todos los textos asi se ven de un color negro oscuro y asi indicamos que por ejemplo una tarea no esta hecha*/
+    color: #000;
+  }
+
+  .title {
+    /*Creamos esta clase con la fuente que descargamos de gogole fonts para colocarla a el texto de neustro html*/
+    font-family: "Lobster", cursive;
+  }
+
+  /*Creamos una clase done que lo que hara es tachar el task que esta hecho y lo pondra en un color mas tenue para identificar las tareas hechas de las que no estan hechas*/
+  .done{
+    text-decoration: line-through;
+    color: #cfcfcf;
+  }

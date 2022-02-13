@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task App</title>
+    <!--BOOSTRAP 4 CDN-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/lux/bootstrap.min.css">
+    <!--Fuentes-->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <!--PAra llamar al archivo css deberemos usar una sentencia de un motor de plantilla de paython, esto es por que python internamente trabaja con un motor de plantilla llamado jinja, este motor tiene sus propias sentencias o sintaxis este motor permite ejecutar de manera interna condicionales bucles variables, funciones, etc dentro del html. En nuestro caso usaremos este motor para acceder a los archivos estaticos dentro de static la carpeta, para esta sintaxis indicamos mediante dos simbolos de llaves y dentro le decimos que cada vez que se ejecute la etiqueta link haremos una peticion de url a la carpeta static y pediremos el archivo, el filename main.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'main.css') }}">
+</head>
+
+<body>
+    <!--Le damos a main un contenedor y un pading de 4-->
+    <main class="container p-4">
+        <!--Creamos un titulo y le colocamos mediante boostrap un tamaño con display de 4, llamamos a title para oclocar la fuente nuestra, centramos el texto, y le damos margin top de 4-->
+        <h1 class="display-4 title text-center mt-4">Task App</h1>
+
+        <!--Creamos un formulario para esto creamos un div con la clase row y dentro otro div con la clase card es decir creamos una tarjeta, pero para que esta tarjeta ocupe una posicion especifica dentro de la pantalla la colocamos dentro de una columna por lo que ira dentro de otro div con la clase col-md-4, esto es lo mismo que decir que la tarjeta estara dentro de una seccion que ocupa una tercera parte de la pantalla y dentro de esta seccion estara la tarjeta, pero dentro de la tarjeta tendremos otras secciones como la cabecera, cuerpo y footer car-header, card-body, card-footer-->
+        <div class="row">
+            <!--Como queremos que este certrada la tarjeta usamos la clase offset-md-4 y ademas usamos my-auto que significa que en el margen de las y se coloque de manera automatica-->
+            <div class="col-md-4 offset-md-4 my-auto">
+                <div class=" card">
+                    <div class="card-header">
+                        <!--Aqui dentro agregamos el formulario que permite el agregado de tareas-->
+                        <!--Indicamos medainte action la ruta por la cual vamos a mandar la informacion y el metodo que sera post con estos dos atributos sabe el formulario donde va a enviar esa informacion-->
+                        <form action="/create-task" method="POST">
+                            <!--Este contnedor form-group es para que esten separados el input del boton si no estarian pegados sin el-->
+                            <div class="form-group">
+                                <!--Este input nos permite agregar una nueva tarea, agregamos una clase llamada form control para estilizar el input, ademas agregamos la propuedad autofocus para que cuando la aplicacion inicie el cursor ya este en este input. DEbemos agregar si o si un name en este caso content para que con este nombre lo llamemos del servidor y asi obtener la informacion que este contiene-->
+                                <input type="text" name="content" placeholder="Task" class="form-control" autofocus>
+                            </div>
+                            <!--Colocamos un boton de tipo submit, con la clase de boostrap btn btn-info para que tenga el color azul, y con la clase btn-block ocupa todo el ancho del contendor-->
+                            <button type="submit" class="btn btn-info btn-block">
+                                Save
+                            </button>
+                        </form>
+                        <div class="card-body">
+                            <!--Pintamos las tareas que tenemos con un ul y en cada li dentro de ul pintamos en pantalla cada tarea que tenemos Para esto usaremos dentro de ul con el modulo jinja de python el cual nos permite usar bucles for para recorrer informacion en este caso la que se recupero ee la base de datos. Luego python reemplaza ese codigo envuelto entre entre llaves por codigo html-->
+                            <!--Agregamos estilos de boostrap con la clase list-group y a cada item le decimos que sera un tiem de esta lista mediante list group item con text center centramos el contenido de la lista-->
+                            <ul class="list-group text-center">
+                                <!--En las tareas traidas en la variable tasks que viene con informacin de la base ded datos queremos extraer cada una de estas tareas-->
+                                <!--Este bucle lo que hara es por cada task pintara un li con el contenido en su interior-->
+                                {% for task in tasks %}
+                                <li class="list-group-item">
+                                    <!--LLamamos al contenido de task para mostrarlo en su interior-->
+                                    <!--Envolvemos en un span el contenido del task para este span poderle aplicar la clase css que tachara el texto en funcion si esta o no hecho-->
+                                    <!--Para agregar la clase css done usaremos un bloque de condicional y segun si task.done esta en true o false agregue la clase done al span, si task.done es true le coloca done, si no no coloca nada-->
+                                    <span class="{% if task.done %} done {% endif %}"> {{task.content}} </span>
+                                </li>
+                                <!--Colocamos un contendor mediante el cual vamos aseparar los botones del task con un pading en el contenedor-->
+                                <div class="container p-2">
+                                    <!--Creamos el boton para editar con el cual vamos a editar la propiedad done para marcarla como hecha o no, para esto creamos un enlace que nos permitira alterar ese dato es decir si esta en false lo pondra en true y visebersa-->
+                                    <!--Le colocamos las clases btn para indicar que es un boton, la clase btn-success para indicar que es de tipo success y btn-sm para indicar que es un boton de tamaño pequeño-->
+                                    <!--Llamamos en la ruta a la que creamos en python done/id donde el id lo tomara del task actual que estamos clickeando-->
+                                    <a href="/done/{{task.id}}" class="btn btn-success btn-sm">Done</a>
+                                    <!--Agregamos una etiqueta a para crear el boton de delete-->
+                                    <!--Le indicamos la ruta delete y medainte corchetes le indicamos que se extraiga el id de task que se eliminara es decir el id del task que estamos cliqueando-->
+                                    <a href="/delete/{{task.id}}" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</body>
+
+</html>
